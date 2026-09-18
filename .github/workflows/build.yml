@@ -21,11 +21,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Build Debug APK
-        run: gradle assembleDebug
+      - name: Auto-locate and Build
+        run: |
+          PROJECT_DIR=$(dirname $(find . -name "settings.gradle.kts" | head -n 1))
+          cd $PROJECT_DIR
+          chmod +x gradlew || true
+          gradle assembleDebug
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: '**/build/outputs/apk/debug/*.apk'
