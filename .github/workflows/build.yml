@@ -21,10 +21,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Auto-locate and Build
+      - name: Build Project
         run: |
-          PROJECT_DIR=$(dirname $(find . -name "settings.gradle.kts" | head -n 1))
-          cd $PROJECT_DIR
+          if [ -d "PhoenixUSBAndroid" ]; then
+            cd PhoenixUSBAndroid
+          fi
           chmod +x gradlew || true
           gradle assembleDebug
 
